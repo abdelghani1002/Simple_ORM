@@ -1,0 +1,15 @@
+{
+    "name": "youcode/simple_orm",
+    "autoload": {
+        "psr-4": {
+            "app": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "abdelghaniAit",
+            "email": "aaittamghart8@gmail.com"
+        }
+    ],
+    "require": {}
+}
