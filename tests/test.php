@@ -1,35 +1,31 @@
 <?php
 
-require "./src/ORM.php";
+require "../src/ObjectRelationalMapping.php";
 
-// connection to database
 $pdo = new PDO('mysql:host=localhost;dbname=ormDB', 'root', 'Abd2001/02/25');
 
-// ORM Create 
 $orm = new ObjectRelationalMapping($pdo, 'users');
 
-// user example
+// Create example
 $userData = ['name' => 'AIT TAMGHART',"email" => "aaittamghart8@gmail.com", 'age' => 22];
 $created = $orm->create($userData);
+echo $created ? "user created successfully<br>\n" : "Error !!\n";
 
-echo $created ? "user created successfully\n" : "Error !!\n";
+// // Read by ID example
+// $user = $orm->read(7);
+// if ($user) {
+//     echo "User informations : \n";
+//     var_dump($user);
+// } else {
+//     echo "No user founded!\n";
+// }
 
-// Read by ID
-$user = $orm->read(5);
+// // Update example
+// $updatedData = ['age' => 23];
+// $updated = $orm->update(7, $updatedData);
 
-if ($user) {
-    echo "User informations : \n";
-    print_r($user);
-} else {
-    echo "No user founded!\n";
-}
+// echo $updated ? "User age updated successfully\n" : "Error !!\n";
 
-// Update user age
-$updatedData = ['age' => 23];
-$updated = $orm->update(5, $updatedData);
-
-echo $updated ? "User age updated successfully\n" : "Error !!\n";
-
-// Delete a user by ID
-$deleted = $orm->delete(4);
-echo $deleted ? "User has been removed successfully\n" : "Error\n";
+// // Delete example
+// $deleted = $orm->delete(7);
+// echo $deleted ? "User has been removed successfully\n" : "Error\n";

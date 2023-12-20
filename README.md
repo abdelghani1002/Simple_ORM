@@ -10,8 +10,8 @@ Ensure you have a working PDO connection to your database. Pass the PDO object a
 
 ```php
 phpCopy code
-$db = new PDO("mysql:host=localhost;dbname=mydatabase", "username", "password");
-$orm = new ObjectRelationalMapping($db, "mytable");
+$pdo = new PDO("mysql:host=localhost;dbname=mydatabase", "username", "password");
+$orm = new ObjectRelationalMapping($pdo, "mytable");
 ```
 
 ## **Usage**
@@ -69,6 +69,6 @@ $result = $orm->delete($id);
 
 ## **Notes**
 
-- This class assumes that the table has a primary key column named "id."
+- This class assumes that the table has a primary key column named "id"
 
 Feel free to customize and extend this class based on your specific project requirements.

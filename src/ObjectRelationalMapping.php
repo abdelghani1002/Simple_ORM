@@ -2,12 +2,12 @@
 
 class ObjectRelationalMapping
 {
-    private $db;
+    private $pdo;
     private $table;
 
-    public function __construct(PDO $db, string $table)
+    public function __construct(PDO $pdo, string $table)
     {
-        $this->db = $db;
+        $this->pdo = $pdo;
         $this->table = $table;
     }
 
@@ -18,7 +18,7 @@ class ObjectRelationalMapping
 
         $query = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
 
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->pdo->prepare($query);
 
         foreach ($data as $key => $value) {
             $stmt->bindValue(":{$key}", $value);
@@ -30,7 +30,7 @@ class ObjectRelationalMapping
     public function read(int $id)
     {
         $query = "SELECT * FROM {$this->table} WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -39,6 +39,11 @@ class ObjectRelationalMapping
 
     public function update(int $id, array $data)
     {
+        if (!self::read($id)){
+            echo "Not found !";
+            exit;
+        }
+
         $setClause = '';
         foreach ($data as $key => $value) {
             $setClause .= "{$key} = :{$key}, ";
@@ -47,7 +52,7 @@ class ObjectRelationalMapping
 
         $query = "UPDATE {$this->table} SET {$setClause} WHERE id = :id";
 
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         foreach ($data as $key => $value) {
@@ -59,8 +64,13 @@ class ObjectRelationalMapping
 
     public function delete(int $id)
     {
+        if (!self::read($id)){
+            echo "Not found !";
+            exit;
+        }
+        
         $query = "DELETE FROM {$this->table} WHERE id = :id";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
